@@ -53,6 +53,10 @@ busqueda_pubmed <- entrez_search(
   retmax = 10
 )
 
+if (length(busqueda_pubmed$ids) == 0) {
+  stop("La búsqueda en PubMed no devolvió artículos. Revisa el término de búsqueda.")
+}
+
 # Pedir los resúmenes a la API de NCBI (E-utilities esummary, JSON)
 respuesta_pubmed <- GET(
   "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
@@ -62,6 +66,7 @@ respuesta_pubmed <- GET(
     retmode = "json"
   )
 )
+stop_for_status(respuesta_pubmed)
 
 datos_pubmed <- content(respuesta_pubmed, as = "parsed", type = "application/json")
 
@@ -85,7 +90,7 @@ tabla_pubmed <- map_dfr(datos_pubmed$result$uids, function(uid) {
     pmid = uid,
     titulo = if (is.null(art$title)) NA_character_ else as.character(art$title),
     revista = if (is.null(art$fulljournalname)) NA_character_ else as.character(art$fulljournalname),
-    anio = if (is.null(art$pubdate)) NA_character_ else as.character(art$pubdate),
+    anio = if (is.null(art$pubdate)) NA_character_ else substr(as.character(art$pubdate), 1, 4),
     autores = nombres
   )
 })
@@ -105,6 +110,10 @@ busqueda_genbank <- entrez_search(
   term = "Chlorella vulgaris[Organism] AND rbcL[Gene]",
   retmax = 5
 )
+
+if (length(busqueda_genbank$ids) == 0) {
+  stop("La búsqueda en GenBank no devolvió secuencias. Revisa el término de búsqueda.")
+}
 
 # Descargar las secuencias en formato FASTA
 secuencias_fasta <- entrez_fetch(
@@ -143,6 +152,8 @@ respuesta <- GET(
   )
 )
 
+stop_for_status(respuesta)
+
 texto_uniprot <- content(respuesta, as = "text", encoding = "UTF-8")
 
 tabla_uniprot <- read.delim(
@@ -167,3 +178,17 @@ write_csv(tabla_uniprot, "01_uniprot_chlorella_lipidos.csv")
 # Qué sigue (Módulo 02):
 #   Descargar datos reales de RNA-seq del SRA (Sequence Read Archive)
 #   para Chlorella vulgaris, y revisarlos antes de analizarlos.
+#
+# --------------------------------------------------------------------------
+# Qué aprendimos
+# --------------------------------------------------------------------------
+# - Antes de analizar un solo dato, se busca qué se ha publicado y qué
+#   secuencias existen: PubMed para literatura, GenBank para secuencias
+#   de nucleótidos y UniProt para proteínas.
+# - Los resúmenes de PubMed se piden a la API de NCBI en formato JSON y
+#   se leen con jsonlite; no se usa entrez_summary.
+# - La tabla de UniProt se lee con read.delim de R base, porque es la
+#   forma en que las columnas del TSV quedan bien separadas.
+# - Cada resultado se guarda en un archivo (CSV o FASTA) para usarlo en
+#   los módulos siguientes: el proyecto avanza con archivos guardados,
+#   no con resultados que solo se vieron en pantalla.

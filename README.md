@@ -1,15 +1,57 @@
-# RNA-seq Analysis for Non-Conventional Microalgae 🧬
+# RNA-seq — Análisis de RNA-seq sin supercomputadora
 
-This repository contains scripts and pipelines for the transcriptomic analysis of native microalgae species from Mexican semi-arid regions.
+Serie avanzada, en R con Bioconductor, para pasar de la búsqueda en bases
+de datos públicas a un análisis de RNA-seq completo, a nivel de
+publicación, sin supercomputadora.
 
-## 🔬 Research Focus
-* **Transcriptomics:** Differential expression analysis and functional annotation.
-* **Metabolic Engineering:** Identification of pathways for lipid accumulation.
-* **Bioenergy:** Optimization of bioprocesses for sustainable fuels.
+**Autor:** Dr. José Juan Torres Martínez
+**Docente de Ciencias Químicas, UASLP, México**
 
-## 🛠 Tools & Languages
-* **Language:** R (Bioconductor)
-* **Analysis:** DESeq2, EdgeR, GO Enrichment.
+Material académico para estudiantes.
 
----
-*Maintained by Dr. José Juan Torres Martínez - Autonomous University of San Luis Potosí (UASLP)*
+## Organismo de trabajo
+
+*Chlorella vulgaris* (microalga verde, TaxID 3077), con énfasis en la
+acumulación de lípidos y la biorremediación.
+
+## Herramientas
+
+- **Lenguaje:** R, con paquetes de Bioconductor: DESeq2, edgeR, limma,
+  SummarizedExperiment, GenomicRanges y Biostrings.
+- **Datos de ejemplo:** conjuntos de ExperimentData de Bioconductor, en
+  especial `airway` (RNA-seq, conjunto clásico para DESeq2). Cuando un
+  módulo necesite datos de ejemplo, se usa uno de Bioconductor
+  ExperimentData o del SRA.
+- **Bases de datos:** PubMed, GenBank y UniProt.
+
+Para instalar Bioconductor:
+
+```r
+if (!requireNamespace("BiocManager", quietly = TRUE)) {
+  install.packages("BiocManager")
+}
+BiocManager::install(c("DESeq2", "edgeR", "limma", "SummarizedExperiment",
+                       "GenomicRanges", "Biostrings", "airway"))
+```
+
+## Módulos
+
+| # | Archivo | Tema |
+|---|---------|------|
+| 01 | `01-busqueda-pubmed-genbank-uniprot.R` | Búsqueda de información pública: PubMed, GenBank y UniProt |
+
+Próximo módulo: 02 — Descargar datos reales de RNA-seq del SRA
+(Sequence Read Archive) para *Chlorella vulgaris*, y revisarlos antes
+de analizarlos.
+
+## Reglas
+
+- Todo calculado **de cero**: los datos van primero y cada valor se
+  deriva de ellos; nunca parámetros pre-cocinados.
+- Los resultados se guardan en archivos (CSV y FASTA) para usarlos en
+  los módulos siguientes.
+- Gráficos claros y bien presentados, bien documentados en español.
+
+## Licencia
+
+Material académico de uso libre para fines educativos.
