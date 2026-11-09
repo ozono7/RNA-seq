@@ -42,9 +42,10 @@ library(jsonlite)
 # Buscamos artículos sobre acumulación de lípidos en Chlorella vulgaris
 # estudiada con RNA-seq. Guardamos título, autores, revista y año.
 #
-# Nota: pedimos el resumen de UN artículo a la vez. Así evitamos depender
-# de la estructura interna que entrez_summary devuelve cuando se le pasan
-# varios IDs a la vez (que cambia según la versión de rentrez).
+# Nota: NO usamos entrez_summary, porque su estructura interna cambia
+# según la versión de rentrez y da errores. En su lugar, pedimos el
+# resumen directamente a la API de NCBI en formato JSON y lo leemos
+# con jsonlite. Así el código no depende de rentrez para esta parte.
 
 busqueda_pubmed <- entrez_search(
   db = "pubmed",
@@ -52,33 +53,39 @@ busqueda_pubmed <- entrez_search(
   retmax = 10
 )
 
-# Función segura: extrae un campo de un resumen, o NA si no existe
-extraer_campo <- function(resumen, campo) {
-  valor <- resumen[[campo]]
-  if (is.null(valor) || length(valor) == 0) {
-    NA_character_
-  } else {
-    as.character(valor[1])
-  }
-}
+# Pedir los resúmenes a la API de NCBI (E-utilities esummary, JSON)
+respuesta_pubmed <- GET(
+  "https://eutils.ncbi.nlm.nih.gov/entrez/eutils/esummary.fcgi",
+  query = list(
+    db = "pubmed",
+    id = paste(busqueda_pubmed$ids, collapse = ","),
+    retmode = "json"
+  )
+)
 
-# Un resumen por artículo, en una tabla
-tabla_pubmed <- map_dfr(busqueda_pubmed$ids, function(pmid) {
-  s <- entrez_summary(db = "pubmed", id = pmid)
-  autores <- s$authors
+datos_pubmed <- content(respuesta_pubmed, as = "parsed", type = "application/json")
+
+# datos_pubmed$result es una lista: un elemento por PMID, más "uids".
+# Cada artículo tiene title, fulljournalname, pubdate y authors.
+tabla_pubmed <- map_dfr(datos_pubmed$result$uids, function(uid) {
+  art <- datos_pubmed$result[[uid]]
+  autores <- art$authors
   nombres <- if (is.null(autores) || length(autores) == 0) {
     NA_character_
   } else {
     paste(
-      vapply(autores, function(au) extraer_campo(au, "name"), character(1)),
+      vapply(autores, function(a) {
+        nm <- a$name
+        if (is.null(nm)) NA_character_ else as.character(nm)
+      }, character(1)),
       collapse = "; "
     )
   }
   tibble(
-    pmid = pmid,
-    titulo = extraer_campo(s, "title"),
-    revista = extraer_campo(s, "fulljournalname"),
-    anio = extraer_campo(s, "pubdate"),
+    pmid = uid,
+    titulo = if (is.null(art$title)) NA_character_ else as.character(art$title),
+    revista = if (is.null(art$fulljournalname)) NA_character_ else as.character(art$fulljournalname),
+    anio = if (is.null(art$pubdate)) NA_character_ else as.character(art$pubdate),
     autores = nombres
   )
 })
@@ -122,6 +129,9 @@ write_csv(tabla_genbank, "01_genbank_rbcL.csv")
 # --------------------------------------------------------------------------
 # Consultamos la API REST de UniProt. TaxID 3077 = Chlorella vulgaris.
 # Pedimos proteínas anotadas con el término "lipid" (10 resultados).
+#
+# Nota: leemos la respuesta con read.delim de R base (no con read_tsv),
+# porque read_tsv con I() no separa bien las columnas en este caso.
 
 respuesta <- GET(
   "https://rest.uniprot.org/uniprotkb/search",
@@ -133,10 +143,14 @@ respuesta <- GET(
   )
 )
 
-# Leer la respuesta como tabla. I() indica que el texto es el dato mismo
-# y no el nombre de un archivo (así evitamos la advertencia de readr).
-tabla_uniprot <- content(respuesta, as = "text", encoding = "UTF-8") %>%
-  read_tsv(I(.), show_col_types = FALSE)
+texto_uniprot <- content(respuesta, as = "text", encoding = "UTF-8")
+
+tabla_uniprot <- read.delim(
+  text = texto_uniprot,
+  sep = "\t",
+  stringsAsFactors = FALSE
+) %>%
+  as_tibble()
 
 print(tabla_uniprot)
 write_csv(tabla_uniprot, "01_uniprot_chlorella_lipidos.csv")
