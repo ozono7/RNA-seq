@@ -41,6 +41,10 @@ library(jsonlite)
 # --------------------------------------------------------------------------
 # Buscamos artículos sobre acumulación de lípidos en Chlorella vulgaris
 # estudiada con RNA-seq. Guardamos título, autores, revista y año.
+#
+# Nota: pedimos el resumen de UN artículo a la vez. Así evitamos depender
+# de la estructura interna que entrez_summary devuelve cuando se le pasan
+# varios IDs a la vez (que cambia según la versión de rentrez).
 
 busqueda_pubmed <- entrez_search(
   db = "pubmed",
@@ -48,35 +52,36 @@ busqueda_pubmed <- entrez_search(
   retmax = 10
 )
 
-# Resumen de cada artículo encontrado
-resumen_pubmed <- entrez_summary(
-  db = "pubmed",
-  id = busqueda_pubmed$ids
-)
-
-# Si solo hay un artículo, entrez_summary devuelve un solo resumen y no
-# una lista; lo convertimos a lista de uno para que el resto funcione igual.
-if (length(busqueda_pubmed$ids) == 1) {
-  resumen_pubmed <- list(resumen_pubmed)
+# Función segura: extrae un campo de un resumen, o NA si no existe
+extraer_campo <- function(resumen, campo) {
+  valor <- resumen[[campo]]
+  if (is.null(valor) || length(valor) == 0) {
+    NA_character_
+  } else {
+    as.character(valor[1])
+  }
 }
 
-# Extraer los campos con la función de rentrez (extract_from_esummary),
-# que maneja la estructura de los resúmenes correctamente.
-tabla_pubmed <- tibble(
-  pmid = busqueda_pubmed$ids,
-  titulo = extract_from_esummary(resumen_pubmed, "title"),
-  revista = extract_from_esummary(resumen_pubmed, "fulljournalname"),
-  anio = extract_from_esummary(resumen_pubmed, "pubdate"),
-  autores = vapply(resumen_pubmed, function(x) {
-    a <- x$authors
-    if (is.null(a) || length(a) == 0) return(NA_character_)
-    nombres <- vapply(a, function(au) {
-      nm <- au$name
-      if (is.null(nm)) NA_character_ else as.character(nm)
-    }, character(1))
-    paste(nombres, collapse = "; ")
-  }, character(1))
-)
+# Un resumen por artículo, en una tabla
+tabla_pubmed <- map_dfr(busqueda_pubmed$ids, function(pmid) {
+  s <- entrez_summary(db = "pubmed", id = pmid)
+  autores <- s$authors
+  nombres <- if (is.null(autores) || length(autores) == 0) {
+    NA_character_
+  } else {
+    paste(
+      vapply(autores, function(au) extraer_campo(au, "name"), character(1)),
+      collapse = "; "
+    )
+  }
+  tibble(
+    pmid = pmid,
+    titulo = extraer_campo(s, "title"),
+    revista = extraer_campo(s, "fulljournalname"),
+    anio = extraer_campo(s, "pubdate"),
+    autores = nombres
+  )
+})
 
 print(tabla_pubmed)
 write_csv(tabla_pubmed, "01_pubmed_chlorella_lipidos.csv")
