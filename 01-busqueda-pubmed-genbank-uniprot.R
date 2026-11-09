@@ -54,14 +54,28 @@ resumen_pubmed <- entrez_summary(
   id = busqueda_pubmed$ids
 )
 
+# Si solo hay un artículo, entrez_summary devuelve un solo resumen y no
+# una lista; lo convertimos a lista de uno para que el resto funcione igual.
+if (length(busqueda_pubmed$ids) == 1) {
+  resumen_pubmed <- list(resumen_pubmed)
+}
+
+# Extraer los campos con la función de rentrez (extract_from_esummary),
+# que maneja la estructura de los resúmenes correctamente.
 tabla_pubmed <- tibble(
   pmid = busqueda_pubmed$ids,
-  titulo = map_chr(resumen_pubmed, "title"),
-  revista = map_chr(resumen_pubmed, "fulljournalname"),
-  anio = map_chr(resumen_pubmed, "pubdate"),
-  autores = map_chr(resumen_pubmed, function(x) {
-    paste(map_chr(x$authors, "name"), collapse = "; ")
-  })
+  titulo = extract_from_esummary(resumen_pubmed, "title"),
+  revista = extract_from_esummary(resumen_pubmed, "fulljournalname"),
+  anio = extract_from_esummary(resumen_pubmed, "pubdate"),
+  autores = vapply(resumen_pubmed, function(x) {
+    a <- x$authors
+    if (is.null(a) || length(a) == 0) return(NA_character_)
+    nombres <- vapply(a, function(au) {
+      nm <- au$name
+      if (is.null(nm)) NA_character_ else as.character(nm)
+    }, character(1))
+    paste(nombres, collapse = "; ")
+  }, character(1))
 )
 
 print(tabla_pubmed)
@@ -114,9 +128,10 @@ respuesta <- GET(
   )
 )
 
-# Leer la respuesta como tabla
+# Leer la respuesta como tabla. I() indica que el texto es el dato mismo
+# y no el nombre de un archivo (así evitamos la advertencia de readr).
 tabla_uniprot <- content(respuesta, as = "text", encoding = "UTF-8") %>%
-  read_tsv(show_col_types = FALSE)
+  read_tsv(I(.), show_col_types = FALSE)
 
 print(tabla_uniprot)
 write_csv(tabla_uniprot, "01_uniprot_chlorella_lipidos.csv")
