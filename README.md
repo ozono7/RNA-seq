@@ -36,8 +36,13 @@ BiocManager::install(c("DESeq2", "edgeR", "limma", "SummarizedExperiment",
 
 ## Módulos
 
+La Lección 00 es la introducción a la transcriptómica y se hace antes
+del Módulo 01. El análisis diferencial completo con DESeq2 es el
+Módulo 07.
+
 | # | Archivo | Tema |
 |---|---------|------|
+| 00 | `00-introduccion-a-la-transcriptomica.R` | Introducción a la transcriptómica: qué mide, la matriz de conteos y un primer análisis de exploración con el conjunto `airway` (tamaño de librería, normalización básica y PCA) |
 | 01 | `01-busqueda-pubmed-genbank-uniprot.R` | Búsqueda de información pública: PubMed, GenBank y UniProt |
 
 Próximo módulo: 02 — Descargar datos reales de RNA-seq del SRA
