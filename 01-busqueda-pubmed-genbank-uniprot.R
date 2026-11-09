@@ -72,6 +72,10 @@ datos_pubmed <- content(respuesta_pubmed, as = "parsed", type = "application/jso
 
 # datos_pubmed$result es una lista: un elemento por PMID, más "uids".
 # Cada artículo tiene title, fulljournalname, pubdate y authors.
+# pubdate es una cadena de fecha con formato variable según NCBI
+# E-utilities ("2023 Jan 15", "2023", "Jan 2023"): el año se extrae
+# con una expresión regular que busca los primeros 4 dígitos, en vez
+# de suponer que el año está al inicio de la cadena.
 tabla_pubmed <- map_dfr(datos_pubmed$result$uids, function(uid) {
   art <- datos_pubmed$result[[uid]]
   autores <- art$authors
@@ -90,7 +94,7 @@ tabla_pubmed <- map_dfr(datos_pubmed$result$uids, function(uid) {
     pmid = uid,
     titulo = if (is.null(art$title)) NA_character_ else as.character(art$title),
     revista = if (is.null(art$fulljournalname)) NA_character_ else as.character(art$fulljournalname),
-    anio = if (is.null(art$pubdate)) NA_character_ else substr(as.character(art$pubdate), 1, 4),
+    anio = if (is.null(art$pubdate)) NA_character_ else str_extract(as.character(art$pubdate), "[0-9]{4}"),
     autores = nombres
   )
 })
