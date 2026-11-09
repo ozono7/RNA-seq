@@ -20,11 +20,6 @@
 #   gráficos de exploración (tamaño de librería, distribución de conteos
 #   y análisis de componentes principales, PCA).
 #
-#   Esta lección NO repite el Módulo 01 (no hay búsqueda en PubMed,
-#   GenBank ni UniProt) y NO hace el análisis diferencial completo: no se
-#   ejecuta DESeq() ni se calculan genes diferencialmente expresados.
-#   Eso llega en el Módulo 07.
-#
 # Objetivos de aprendizaje:
 #   - Explicar qué es el transcriptoma y qué mide la transcriptómica.
 #   - Cargar un conjunto de RNA-seq con Bioconductor (paquete `airway`)
@@ -101,7 +96,7 @@ data(airway)
 
 # Dimensiones de la matriz: filas = genes, columnas = muestras.
 # El número exacto de genes depende de la versión del paquete airway;
-# no se escribe aquí a mano: se calcula con dim().
+# se calcula con dim().
 dim(airway)
 
 # Información de las muestras: una fila por muestra.
@@ -124,7 +119,7 @@ head(matriz_conteos[, 1:4])
 
 # ¿Cuántos genes tienen cero lecturas en todas las muestras? Son genes
 # que no se expresaron en ninguna muestra de este experimento. El número
-# se calcula de la matriz, no se escribe a mano.
+# se calcula de la matriz.
 genes_sin_lecturas <- sum(rowSums(matriz_conteos) == 0)
 genes_sin_lecturas
 
@@ -161,9 +156,8 @@ print(resumen_muestras)
 # Se construye un objeto DESeqDataSet a partir de la matriz de conteos
 # y de la información de las muestras. El diseño ~ cell + dex indica
 # que cada línea celular se midió en las dos condiciones (diseño
-# pareado: la misma línea, sin tratar y tratada). Aquí NO se ejecuta
-# DESeq(): no hay análisis diferencial en esta lección, solo
-# normalización para poder explorar los datos.
+# pareado: la misma línea, sin tratar y tratada). Aquí solo se hace
+# la normalización para poder explorar los datos.
 dds <- DESeqDataSetFromMatrix(
   countData = matriz_conteos,
   colData = colData(airway),
