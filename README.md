@@ -45,9 +45,9 @@ Módulo 07.
 | 00 | `00-introduccion-a-la-transcriptomica.R` | Introducción a la transcriptómica: qué mide, la matriz de conteos y un primer análisis de exploración con el conjunto `airway` (tamaño de librería, normalización básica y PCA) |
 | 01 | `01-busqueda-pubmed-genbank-uniprot.R` | Búsqueda de información pública: PubMed, GenBank y UniProt |
 | 02 | `02-descargar-datos-sra.R` | Descargar datos de RNA-seq del SRA con SRA Toolkit (prefetch y fasterq-dump): estudio PRJNA378177, 6 muestras de *Chlorella vulgaris* (WT, EMS y UV) |
+| 03 | `03-control-calidad-fastqc-multiqc.R` | Control de calidad de lecturas con FastQC y MultiQC: calidad Phred por base y por lectura, contenido GC, composición de bases y longitud, con el paquete ShortRead de Bioconductor (corrida de demostración SRR5314137) |
 
-Próximo módulo: 03 — Control de calidad de las lecturas descargadas
-con FastQC y MultiQC.
+Próximo módulo: 04 — Limpieza de lecturas con Trimmomatic / fastp.
 
 ## Reglas
 
@@ -60,3 +60,4 @@ con FastQC y MultiQC.
 ## Licencia
 
 Material académico de uso libre para fines educativos.
+
