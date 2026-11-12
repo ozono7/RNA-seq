@@ -1,0 +1,9 @@
+herramienta,etapa,lecturas,bases,longitud_media_nt,pct_q30,pct_gc,archivo
+fastp,Antes,2447268,184940065,75,88.7303,61.2846,NA
+fastp,Después,2409312,181350078,75,89.6746,61.280699999999996,NA
+Trimmomatic,Antes,2447268,NA,NA,NA,NA,NA
+Trimmomatic,Después,2186001,NA,NA,NA,NA,NA
+R/ShortRead (fastp),Antes,1223634,NA,75.55032,92.65654996563879,NA,R1 crudo
+R/ShortRead (fastp),Antes,1223634,NA,75.58514,84.81413145493943,NA,R2 crudo
+R/ShortRead (fastp),Después,1204656,NA,75.45014,93.1264010908396,NA,R1 limpio
+R/ShortRead (fastp),Después,1204656,NA,75.07822,86.11602672519408,NA,R2 limpio
