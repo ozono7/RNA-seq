@@ -1,0 +1,27 @@
+#!/bin/bash
+# Limpieza de las 6 corridas de RNA-seq de Chlorella vulgaris (PRJNA378177)
+# con fastp y Trimmomatic. Generado por el Módulo 04 de la serie RNA-seq.
+# Uso: bash 04_limpiar_lecturas.sh
+# Requisitos: fastp instalado (conda install -c bioconda fastp) y Java
+# para Trimmomatic (el JAR se descarga con el script de R del módulo).
+
+mkdir -p limpieza/fastp limpieza/trimmomatic
+
+fastp --in1 fastq/SRR5314138_1.fastq.gz --in2 fastq/SRR5314138_2.fastq.gz --out1 limpieza/fastp/SRR5314138_1.clean.fq.gz --out2 limpieza/fastp/SRR5314138_2.clean.fq.gz --qualified_quality_phred 20 --unqualified_percent_limit 40 --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 --length_required 36 --thread 4 --json limpieza/fastp/SRR5314138.fastp.json --html limpieza/fastp/SRR5314138.fastp.html
+java -jar trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 4 -phred33 fastq/SRR5314138_1.fastq.gz fastq/SRR5314138_2.fastq.gz limpieza/trimmomatic/SRR5314138_1.paired.fq.gz limpieza/trimmomatic/SRR5314138_1.unpaired.fq.gz limpieza/trimmomatic/SRR5314138_2.paired.fq.gz limpieza/trimmomatic/SRR5314138_2.unpaired.fq.gz ILLUMINACLIP:trimmomatic/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:36
+
+fastp --in1 fastq/SRR5314139_1.fastq.gz --in2 fastq/SRR5314139_2.fastq.gz --out1 limpieza/fastp/SRR5314139_1.clean.fq.gz --out2 limpieza/fastp/SRR5314139_2.clean.fq.gz --qualified_quality_phred 20 --unqualified_percent_limit 40 --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 --length_required 36 --thread 4 --json limpieza/fastp/SRR5314139.fastp.json --html limpieza/fastp/SRR5314139.fastp.html
+java -jar trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 4 -phred33 fastq/SRR5314139_1.fastq.gz fastq/SRR5314139_2.fastq.gz limpieza/trimmomatic/SRR5314139_1.paired.fq.gz limpieza/trimmomatic/SRR5314139_1.unpaired.fq.gz limpieza/trimmomatic/SRR5314139_2.paired.fq.gz limpieza/trimmomatic/SRR5314139_2.unpaired.fq.gz ILLUMINACLIP:trimmomatic/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:36
+
+fastp --in1 fastq/SRR5314140_1.fastq.gz --in2 fastq/SRR5314140_2.fastq.gz --out1 limpieza/fastp/SRR5314140_1.clean.fq.gz --out2 limpieza/fastp/SRR5314140_2.clean.fq.gz --qualified_quality_phred 20 --unqualified_percent_limit 40 --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 --length_required 36 --thread 4 --json limpieza/fastp/SRR5314140.fastp.json --html limpieza/fastp/SRR5314140.fastp.html
+java -jar trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 4 -phred33 fastq/SRR5314140_1.fastq.gz fastq/SRR5314140_2.fastq.gz limpieza/trimmomatic/SRR5314140_1.paired.fq.gz limpieza/trimmomatic/SRR5314140_1.unpaired.fq.gz limpieza/trimmomatic/SRR5314140_2.paired.fq.gz limpieza/trimmomatic/SRR5314140_2.unpaired.fq.gz ILLUMINACLIP:trimmomatic/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:36
+
+fastp --in1 fastq/SRR5314141_1.fastq.gz --in2 fastq/SRR5314141_2.fastq.gz --out1 limpieza/fastp/SRR5314141_1.clean.fq.gz --out2 limpieza/fastp/SRR5314141_2.clean.fq.gz --qualified_quality_phred 20 --unqualified_percent_limit 40 --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 --length_required 36 --thread 4 --json limpieza/fastp/SRR5314141.fastp.json --html limpieza/fastp/SRR5314141.fastp.html
+java -jar trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 4 -phred33 fastq/SRR5314141_1.fastq.gz fastq/SRR5314141_2.fastq.gz limpieza/trimmomatic/SRR5314141_1.paired.fq.gz limpieza/trimmomatic/SRR5314141_1.unpaired.fq.gz limpieza/trimmomatic/SRR5314141_2.paired.fq.gz limpieza/trimmomatic/SRR5314141_2.unpaired.fq.gz ILLUMINACLIP:trimmomatic/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:36
+
+fastp --in1 fastq/SRR5314136_1.fastq.gz --in2 fastq/SRR5314136_2.fastq.gz --out1 limpieza/fastp/SRR5314136_1.clean.fq.gz --out2 limpieza/fastp/SRR5314136_2.clean.fq.gz --qualified_quality_phred 20 --unqualified_percent_limit 40 --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 --length_required 36 --thread 4 --json limpieza/fastp/SRR5314136.fastp.json --html limpieza/fastp/SRR5314136.fastp.html
+java -jar trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 4 -phred33 fastq/SRR5314136_1.fastq.gz fastq/SRR5314136_2.fastq.gz limpieza/trimmomatic/SRR5314136_1.paired.fq.gz limpieza/trimmomatic/SRR5314136_1.unpaired.fq.gz limpieza/trimmomatic/SRR5314136_2.paired.fq.gz limpieza/trimmomatic/SRR5314136_2.unpaired.fq.gz ILLUMINACLIP:trimmomatic/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:36
+
+fastp --in1 fastq/SRR5314137_1.fastq.gz --in2 fastq/SRR5314137_2.fastq.gz --out1 limpieza/fastp/SRR5314137_1.clean.fq.gz --out2 limpieza/fastp/SRR5314137_2.clean.fq.gz --qualified_quality_phred 20 --unqualified_percent_limit 40 --cut_front --cut_tail --cut_window_size 4 --cut_mean_quality 20 --length_required 36 --thread 4 --json limpieza/fastp/SRR5314137.fastp.json --html limpieza/fastp/SRR5314137.fastp.html
+java -jar trimmomatic/Trimmomatic-0.39/trimmomatic-0.39.jar PE -threads 4 -phred33 fastq/SRR5314137_1.fastq.gz fastq/SRR5314137_2.fastq.gz limpieza/trimmomatic/SRR5314137_1.paired.fq.gz limpieza/trimmomatic/SRR5314137_1.unpaired.fq.gz limpieza/trimmomatic/SRR5314137_2.paired.fq.gz limpieza/trimmomatic/SRR5314137_2.unpaired.fq.gz ILLUMINACLIP:trimmomatic/Trimmomatic-0.39/adapters/TruSeq3-PE.fa:2:30:10 SLIDINGWINDOW:4:20 MINLEN:36
+
