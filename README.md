@@ -47,8 +47,9 @@ Módulo 07.
 | 02 | `02-descargar-datos-sra.R` | Descargar datos de RNA-seq del SRA con SRA Toolkit (prefetch y fasterq-dump): estudio PRJNA378177, 6 muestras de *Chlorella vulgaris* (WT, EMS y UV) |
 | 03 | `03-control-calidad-fastqc-multiqc.R` | Control de calidad de lecturas con FastQC y MultiQC: calidad Phred por base y por lectura, contenido GC, composición de bases y longitud, con el paquete ShortRead de Bioconductor (corrida de demostración SRR5314137) |
 | 04 | `04-limpieza-lecturas-trimmomatic-fastp.R` | Limpieza de lecturas con Trimmomatic y fastp: quitar adaptadores, recortar los extremos de baja calidad y filtrar por longitud mínima, con verificación del antes y el después (corrida de demostración SRR5314137) |
+| 05 | `05-ensamblaje-de-novo-trinity.R` | Ensamblaje de novo del transcriptoma con Trinity: reconstruir los transcritos sin genoma de referencia, estadísticas del ensamblaje (N50, GC) y porcentaje de lecturas mapeadas de vuelta con bowtie2 (corrida de demostración SRR5314137, submuestra de 100,000 pares) |
 
-Próximo módulo: 05 — Ensamblaje de novo del transcriptoma con Trinity.
+Próximo módulo: 06 — Cuantificación de transcritos con Salmon o Kallisto.
 
 ## Reglas
 
