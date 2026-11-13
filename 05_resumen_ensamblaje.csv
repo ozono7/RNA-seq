@@ -1,0 +1,2 @@
+corrida,pares_submuestra,transcritos,genes_trinity,bases_totales_nt,longitud_media_nt,longitud_mediana_nt,longitud_minima_nt,longitud_maxima_nt,n50_nt,l50,transcritos_mayor_1000_nt,pct_transcritos_mayor_1000_nt,pct_gc,pct_lecturas_mapeadas,version_trinity
+SRR5314137,100000,2488,2488,1004072,403.6,302.5,201,5406,428,686,99,4,60.5,55.19,Trinity version: Trinity-v2.15.2 -currently using the latest production release of Trinity. 
