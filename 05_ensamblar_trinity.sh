@@ -1,4 +1,13 @@
 #!/bin/bash
+# ==========================================================================
+# Autor: Dr. José Juan Torres Martínez
+# Docente de Ciencias Químicas
+# Universidad Autónoma de San Luis Potosí (UASLP)
+# México
+#
+# Material académico para estudiantes
+# Serie "RNA-seq" (avanzado) — Módulo 05
+# ==========================================================================
 # Ensamblaje de novo con Trinity de las 6 corridas de RNA-seq de
 # Chlorella vulgaris (PRJNA378177), con las lecturas limpias del
 # Módulo 04. Generado por el Módulo 05 de la serie RNA-seq.
