@@ -309,6 +309,15 @@ adaptadores_sh <- file.path(
 
 lineas_sh <- c(
   "#!/bin/bash",
+  "# ==========================================================================",
+  "# Autor: Dr. José Juan Torres Martínez",
+  "# Docente de Ciencias Químicas",
+  "# Universidad Autónoma de San Luis Potosí (UASLP)",
+  "# México",
+  "#",
+  "# Material académico para estudiantes",
+  "# Serie \"RNA-seq\" (avanzado) — Módulo 04",
+  "# ==========================================================================",
   "# Limpieza de las 6 corridas de RNA-seq de Chlorella vulgaris (PRJNA378177)",
   "# con fastp y Trimmomatic. Generado por el Módulo 04 de la serie RNA-seq.",
   "# Uso: bash 04_limpiar_lecturas.sh",
@@ -1074,3 +1083,4 @@ if (pasa_limpieza) {
 #   de las herramientas: longitud, calidad media y % Q30 se calculan
 #   desde las lecturas mismas, con una submuestra de 50,000 lecturas
 #   por archivo y semilla fija.
+
