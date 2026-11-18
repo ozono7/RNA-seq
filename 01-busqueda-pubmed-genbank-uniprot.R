@@ -180,7 +180,7 @@ write_csv(tabla_uniprot, "01_uniprot_chlorella_lipidos.csv")
 #   - 01_uniprot_chlorella_lipidos.csv : proteínas de Chlorella y lípidos.
 #
 # Qué sigue (Módulo 02):
-#   Descargar datos reales de RNA-seq del SRA (Sequence Read Archive)
+#   Descargar datos de RNA-seq del SRA (Sequence Read Archive)
 #   para Chlorella vulgaris, y revisarlos antes de analizarlos.
 #
 # --------------------------------------------------------------------------

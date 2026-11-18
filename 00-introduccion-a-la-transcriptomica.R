@@ -1,6 +1,6 @@
 # ==========================================================================
 # Lección 00. Introducción a la transcriptómica: qué mide y un primer
-#   análisis de exploración con datos reales
+#   análisis de exploración con datos
 # ==========================================================================
 # Autor: Dr. José Juan Torres Martínez
 # Docente de Ciencias Químicas
@@ -14,7 +14,7 @@
 #   buscar en bases de datos (Módulo 01) y antes de cualquier análisis
 #   diferencial (Módulo 07, DESeq2 completo), aquí se responde la pregunta
 #   básica: ¿qué es la transcriptómica, qué mide y cómo se ve un conjunto
-#   de datos de RNA-seq? Se trabaja con datos reales del conjunto
+#   de datos de RNA-seq? Se trabaja con datos del conjunto
 #   `airway` de Bioconductor ExperimentData: se carga la matriz de
 #   conteos, se explora, se normaliza de forma básica y se hacen tres
 #   gráficos de exploración (tamaño de librería, distribución de conteos
@@ -386,7 +386,7 @@ ggsave("00_pca_muestras.png", plot = grafico_pca,
 # - El resultado de un experimento de RNA-seq es una matriz de conteos:
 #   filas = genes, columnas = muestras, celdas = número de lecturas
 #   asignadas a cada gen en cada muestra.
-# - El conjunto `airway` de Bioconductor es un experimento real de
+# - El conjunto `airway` de Bioconductor es un experimento de
 #   RNA-seq (Himes et al. 2014): 8 muestras, 4 líneas celulares humanas
 #   de músculo liso, cada una sin tratar y tratada con dexametasona.
 # - El tamaño de librería (suma de conteos por muestra) difiere entre
