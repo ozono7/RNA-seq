@@ -1,0 +1,3 @@
+herramienta,version,corrida,fragmentos_procesados,fragmentos_mapeados,pct_mapeados,transcritos,transcritos_tpm_mayor_0,transcritos_tpm_mayor_igual_1,suma_tpm,suma_conteos,longitud_media_fragmento_nt
+Salmon,1.12.1,SRR5314137,100000,57994,57.994,2488,2488,2488,999999.999994,57993.994,164.10241858149428
+Kallisto,0.50.1,SRR5314137,100000,57144,57.1,2488,2487,2486,999999.9800001,57143.99900594,NA
